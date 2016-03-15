@@ -1,0 +1,20 @@
+{
+  "name": "projectivemotion/php-skyscanner",
+  "description": "Php Skyscanner Api",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Amado Martinez",
+      "email": "amado@projectivemotion.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "projectivemotion\\phpSkyscanner\\": "src/"
+    }
+  },
+  "require": {
+    "projectivemotion/php-scraper-tools": "0.1.0"
+  }
+}
