@@ -85,10 +85,12 @@ class Itinerary
 
     public function IsCarrierID($CarrierID)
     {
-        return count($this->getOutboundLeg()->Carriers) == 1 &&
-                count($this->getInboundLeg()->Carriers) == 1 &&
-                $this->getOutboundLeg()->Carriers[0]    == $this->getOutboundLeg()->Carriers[0] &&
-                $this->getOutboundLeg()->Carriers[0] == $CarrierID;
+        return $this->OutboundLeg &&
+                count($this->getOutboundLeg()->Carriers) == 1 &&
+                $this->getOutboundLeg()->Carriers[0] == $CarrierID &&
+        (!$this->InboundLeg ||
+            (count($this->getInboundLeg()->Carriers) == 1 && $this->getInboundLeg()->Carriers[0] == $CarrierID)
+        );
     }
 
     /**
