@@ -10,7 +10,7 @@ namespace projectivemotion\phpSkyscanner\Request;
 use projectivemotion\PhpScraperTools\SuperScraper;
 use projectivemotion\phpSkyscanner\Exception;
 
-class LiveFlightCreate extends SuperScraper
+class LiveFlightCreateSession extends SuperScraper
 {
     protected function curl_setopt($ch)
     {

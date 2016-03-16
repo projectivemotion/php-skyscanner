@@ -15,6 +15,10 @@
     }
   },
   "require": {
-    "projectivemotion/php-scraper-tools": "0.1.0"
+    "projectivemotion/php-scraper-tools": "0.1.*"
+  },
+  "require-dev": {
+    "zendframework/zend-cache": "2.6.1",
+    "zendframework/zend-serializer": "2.6.1"
   }
 }

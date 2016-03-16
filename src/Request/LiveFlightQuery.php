@@ -10,16 +10,18 @@ namespace projectivemotion\phpSkyscanner\Request;
 
 class LiveFlightQuery // extends \ArrayObject
 {
-    protected $country;
     protected $locale;
-    protected $originplace;
-    protected $destinationplace;
-    protected $includecarriers;
-    protected $outbounddate;
-    protected $inbounddate;
     protected $adults;
     protected $apiKey;
+    protected $country;
+    protected $originplace;
+    protected $inbounddate;
+    protected $outbounddate;
+    protected $groupPricing;
+    protected $carrierschema;
     protected $locationschema;
+    protected $includecarriers;
+    protected $destinationplace;
 
     public function getApiKey()
     {
@@ -29,6 +31,16 @@ class LiveFlightQuery // extends \ArrayObject
     public function __construct($input = [])
     {
 //        parent::__construct($input, \ArrayObject::ARRAY_AS_PROPS);
+    }
+
+    public function setGroupPricing($groupPricing)
+    {
+        $this->groupPricing = $groupPricing;
+    }
+
+    public function getGroupPricing()
+    {
+        return $this->groupPricing;
     }
 
     public function setCountry($country)
@@ -89,5 +101,10 @@ class LiveFlightQuery // extends \ArrayObject
     public function setLocationSchema($locationschema)
     {
         $this->locationschema = $locationschema;
+    }
+
+    public function setCarrierschema($carrierschema)
+    {
+        $this->carrierschema = $carrierschema;
     }
 }
