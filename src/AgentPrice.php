@@ -24,7 +24,8 @@ class AgentPrice
         $self   =   new static;
         $self->Price    =   $agentdata->Price;
         $self->AgentId  =   $agentdata->Agents[0];
-        $self->DeeplinkUrl  =   $agentdata->DeeplinkUrl;
+        if(isset($agentdata->DeeplinkUrl))
+            $self->DeeplinkUrl  =   $agentdata->DeeplinkUrl;
         $self->QuoteAgeInMinutes    =   $agentdata->QuoteAgeInMinutes;
         return $self;
     }
