@@ -9,6 +9,7 @@ namespace projectivemotion\phpSkyscanner;
 
 
 use GuzzleHttp\Client;
+use projectivemotion\phpSkyscanner\Exception\RateLimitException;
 use projectivemotion\phpSkyscanner\Request\LiveFlightCreateSession;
 use projectivemotion\phpSkyscanner\Request\LiveFlightQuery;
 use projectivemotion\phpSkyscanner\Response\LiveFlightResponse;
@@ -47,11 +48,17 @@ class LiveFlights
         $response   =   $http->request('GET', $this->SessionURL . '?' . http_build_query($query->asArray()),
                 [
                     'allow_redirects' => false,
+                    'http_errors'   =>  false,
                     'headers' => ['Content-Type' => 'application/json'],
                     'synchronous'   =>true,
                 ]);
 
         $code   =   $response->getStatusCode();
+
+        if($code == 429)
+        {
+            throw new RateLimitException();
+        }
 
         // No Content, Not Modified => Wait..
         if($code == 204 || $code == 304)
