@@ -10,8 +10,6 @@ namespace projectivemotion\phpSkyscanner\Response;
 
 class LiveFlightResponse extends \ArrayObject
 {
-    protected $Status   =   '';
-
     public function __construct($input)
     {
         parent::__construct($input, \ArrayObject::ARRAY_AS_PROPS);
