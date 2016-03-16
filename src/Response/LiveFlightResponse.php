@@ -10,6 +10,7 @@ namespace projectivemotion\phpSkyscanner\Response;
 
 use projectivemotion\phpSkyscanner\Itinerary;
 use projectivemotion\phpSkyscanner\Leg;
+use projectivemotion\phpSkyscanner\Schema\Carrier;
 
 class LiveFlightResponse extends \ArrayObject
 {
@@ -47,6 +48,13 @@ class LiveFlightResponse extends \ArrayObject
         foreach($this->Legs as $LegObj)
             if($LegObj->Id == $LegID)
                 return Leg::Create($LegObj, $this);
+    }
+
+    public function FindCarrierByID($CarrierID)
+    {
+        foreach($this->Carriers as $CarrierObj)
+            if($CarrierObj->Id  ==  $CarrierID)
+                return Carrier::Create((array)$CarrierObj);
     }
 
     public function getItineraries()

@@ -44,10 +44,16 @@ class LiveFlightCreateSession
         
         $client =   new Client();
         $response   =   $client->request('POST', $url, ['allow_redirects' => false,
-//            'headers' => ['Content-Type' => 'application/json'],
             'synchronous'   =>  true,
             'form_params' => $query->asArray()
         ]);
+
+        $code   =   $response->getStatusCode();
+
+        if($code == 429)
+        {
+            throw new RateLimitException();
+        }
 
         $location   =   $response->getHeader('Location');
 
