@@ -7,18 +7,12 @@
 
 namespace projectivemotion\phpSkyscanner\Request;
 
-use projectivemotion\PhpScraperTools\SuperScraper;
+use GuzzleHttp\Client;
 use projectivemotion\phpSkyscanner\Exception;
 
-class LiveFlightCreateSession extends SuperScraper
+class LiveFlightCreateSession
 {
-    protected function curl_setopt($ch)
-    {
-        parent::curl_setopt($ch);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
-        curl_setopt($ch, CURLOPT_HEADER, TRUE);
-    }
-
+    // @todo integrate this into GetSsssionUrl
     public function getCurl($url, $post = NULL, $isAjax = false)
     {
         $headers    =   parent::getCurl($url, $post, $isAjax);
@@ -47,10 +41,19 @@ class LiveFlightCreateSession extends SuperScraper
     public static function GetSessionURL(LiveFlightQuery $query)
     {
         $url = 'http://partners.api.skyscanner.net/apiservices/pricing/v1.0';
+        
+        $client =   new Client();
+        $response   =   $client->request('POST', $url, ['allow_redirects' => false,
+//            'headers' => ['Content-Type' => 'application/json'],
+            'synchronous'   =>  true,
+            'form_params' => $query->asArray()
+        ]);
 
-        $http   =   new static();
-        $location   =   $http->PostAjax($url, $query->asArray());
+        $location   =   $response->getHeader('Location');
 
-        return $location;
+//        $http   =   new static();
+//        $location   =   $http->PostAjax($url, $query->asArray());
+
+        return $location[0];
     }
 }

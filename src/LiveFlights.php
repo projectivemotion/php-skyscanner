@@ -8,12 +8,12 @@
 namespace projectivemotion\phpSkyscanner;
 
 
-use projectivemotion\PhpScraperTools\SuperScraper;
+use GuzzleHttp\Client;
 use projectivemotion\phpSkyscanner\Request\LiveFlightCreateSession;
 use projectivemotion\phpSkyscanner\Request\LiveFlightQuery;
 use projectivemotion\phpSkyscanner\Response\LiveFlightResponse;
 
-class LiveFlights extends SuperScraper
+class LiveFlights
 {
     /**
      * @var SuperScraper
@@ -43,10 +43,23 @@ class LiveFlights extends SuperScraper
             throw new Exception("Initialize a session first.");
         }
         
-        $http   =   new SuperScraper();
-        $response   =   $http->getCurl($this->SessionURL . '?' . http_build_query($query->asArray()), NULL, TRUE);
+        $http   =   new Client();
+        $response   =   $http->request('GET', $this->SessionURL . '?' . http_build_query($query->asArray()),
+                [
+                    'allow_redirects' => false,
+                    'headers' => ['Content-Type' => 'application/json'],
+                    'synchronous'   =>true,
+                ]);
 
-        $json   =   json_decode($response);
+        $code   =   $response->getStatusCode();
+
+        // No Content, Not Modified => Wait..
+        if($code == 204 || $code == 304)
+        {
+            return NULL;
+        }
+
+        $json   =   json_decode($response->getBody());
 
         if(!$json)
         {
@@ -73,7 +86,7 @@ class LiveFlights extends SuperScraper
         $this->Initialize($query, $init_delay);
         do {
             $response = $this->Poll($query);
-        }while($response->isPending() && sleep($poll_delay) === 0);
+        }while((!$response || $response->isPending()) && sleep($poll_delay) === 0);
         return $response;
     }
 }

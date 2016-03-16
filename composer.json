@@ -15,7 +15,7 @@
     }
   },
   "require": {
-    "projectivemotion/php-scraper-tools": "0.1.*"
+    "guzzlehttp/guzzle": "6.*"
   },
   "require-dev": {
     "zendframework/zend-cache": "2.6.1",
