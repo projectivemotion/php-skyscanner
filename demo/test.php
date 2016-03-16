@@ -36,7 +36,9 @@ $Query->setCurrency('EUR');
 
 try{
     $Session->Initialize($Query, 2);
-    $data   =   $Session->Poll($Query);
+    do {
+        $data = $Session->Poll($Query);
+    }while($data->isPending() && sleep(2) === 0);
 }catch(\projectivemotion\phpSkyscanner\Exception $exception)
 {
     die("Error: " . $exception->getMessage());

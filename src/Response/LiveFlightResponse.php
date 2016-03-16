@@ -17,17 +17,20 @@ class LiveFlightResponse extends \ArrayObject
         parent::__construct($input, \ArrayObject::ARRAY_AS_PROPS);
     }
 
-
-    public function setStatus($Status)
+    public function isComplete()
     {
-        $this->Status = $Status;
+        return $this->Status == 'UpdatesComplete';
     }
 
-    public function getStatus()
+    public function isPending()
     {
-        return $this->Status;
+        return $this->Status == 'UpdatesPending';
     }
 
+    /**
+     * @param $json_response
+     * @return static
+     */
     public static function Create($json_response)
     {
         $self   =   new static((array)$json_response);

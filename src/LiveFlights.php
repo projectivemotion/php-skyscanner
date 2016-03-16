@@ -31,6 +31,11 @@ class LiveFlights extends SuperScraper
         $this->SessionURL   =   $Location;
     }
 
+    /**
+     * @param LiveFlightQuery $query
+     * @return LiveFlightResponse
+     * @throws Exception
+     */
     public function Poll(LiveFlightQuery $query)
     {
         if(!$this->SessionURL)
